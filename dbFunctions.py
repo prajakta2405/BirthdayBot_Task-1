@@ -69,18 +69,22 @@ def retrieveData(userId,parameter,paramId):
     #paramId{1 or 2} represents the parameter{name or date(01/12)} i.e 1 = userId+name, 2 = userId+date, and 0 or other represents just userId
     #then return all the dates that are fetched but the query
     
+    dt= datetime.datetime.strptime(parameter,'%d/%m')
+    x=dt.day +1
+    y=dt.month
+
+
     if paramId==1:
         query.execute("select date,month from dates where userId=%s and Name=%s",[userId,parameter])
         pass
     elif paramId==2:
-        query.execute("select date,month from dates where userId=%s and date=%s",[userId,parameter])
+        query.execute("select date,month from dates where userId=%s and date=%s and month=%s",[userId,x,y])
         pass
     else:
         query.execute("select date,month from dates where userId=%s",[userId])
         result=query.fetchall()
         for i in result:
             print(i[0]+"/"+i[1])
-
 def getDate(date,month,year):
     print("Function to return birthdate i.e. 1 day post the date of notification")
     #input is date, month and year
