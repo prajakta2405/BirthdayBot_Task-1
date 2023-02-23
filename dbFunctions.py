@@ -69,24 +69,64 @@ def retrieveData(userId,parameter,paramId):
     #paramId{1 or 2} represents the parameter{name or date(01/12)} i.e 1 = userId+name, 2 = userId+date, and 0 or other represents just userId
     #then return all the dates that are fetched but the query
     
-    dt= datetime.datetime.strptime(parameter,'%d/%m')
-    x=dt.day +1
-    y=dt.month
+    
 
 
     if paramId==1:
         query.execute("select date,month from dates where userId=%s and Name=%s",[userId,parameter])
-        pass
+        
     elif paramId==2:
+        dt= datetime.datetime.strptime(parameter,'%d/%m')
+        x=dt.day +1
+        y=dt.month
         query.execute("select date,month from dates where userId=%s and date=%s and month=%s",[userId,x,y])
-        pass
+        
     else:
         query.execute("select date,month from dates where userId=%s",[userId])
         result=query.fetchall()
         for i in result:
             print(i[0]+"/"+i[1])
-def getDate(date,month,year):
+
+
+def getDate(day,month,year):
     print("Function to return birthdate i.e. 1 day post the date of notification")
     #input is date, month and year
     #also consider the month change when date is 1 and also check for leap year when feb month
     #return in string format 01/12
+
+    if((year%400==0 or year%4==0) and month==2):
+        next_day=day+1
+        next_month=month
+        next_year=year
+        
+    elif(month==2 and day==28):
+        next_day=1
+        next_month=month+1
+        next_year=year
+        
+    elif(month==12 and day==31):
+        next_day=1
+        next_month=1
+        next_year=year+1
+    elif(day==31 ):
+        next_day=1
+        next_month=month+1
+        next_year=year
+    elif((day==30) and (month==4 or month==6 or month==9 or month==11)):
+        next_day=1
+        next_month=month+1
+        next_year=year
+    else:
+        next_day=day+1
+        next_month=month
+        next_year=year
+    
+    
+    print(next_day +"/"+next_month+"/"+next_year)
+
+
+
+
+
+
+
