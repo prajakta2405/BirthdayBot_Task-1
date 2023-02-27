@@ -74,18 +74,20 @@ def retrieveData(userId,parameter,paramId):
 
     if paramId==1:
         query.execute("select date,month from dates where userId=%s and Name=%s",[userId,parameter])
+        result=query.fetchall()
         
     elif paramId==2:
         dt= datetime.datetime.strptime(parameter,'%d/%m')
         x=dt.day +1
         y=dt.month
         query.execute("select date,month from dates where userId=%s and date=%s and month=%s",[userId,x,y])
+        result=query.fetchall()
         
     else:
         query.execute("select date,month from dates where userId=%s",[userId])
         result=query.fetchall()
-        for i in result:
-            print(i[0]+"/"+i[1])
+        
+    return result
 
 
 def getDate(day,month,year):
